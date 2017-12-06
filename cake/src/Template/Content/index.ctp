@@ -29,18 +29,10 @@ $this->layout = false;
 <title>Page Title</title>
 </head>
 <body>
-<h1><?= h($color) ?></h1>
-<h1><?= h($user["name"]) ?></h1>
-<h1><?= h($length["name"]) ?></h1>
-<form action="/login/rest" method="post">
-  First name:<br>
-  <input type="text" name="username">
-  <br>
-  Last name:<br>
-  <input type="text" name="password">
-  <br><br>
-  <input type="submit" value="Submit">
-</form> 
+
+<h1>Curent User:</h1>
+<br>
+<h1>Name: <?= h($user["name"]) ?></h1>
 </body>
 </html>
 

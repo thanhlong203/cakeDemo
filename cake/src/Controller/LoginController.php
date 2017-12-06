@@ -19,21 +19,31 @@ class LoginController extends AppController
 
     public function login()
     {
-      $results = $this->UserDao->get(1);
-      $this->set('length', $results[0]["name"]);
+      $results = $this->UserDao->getUser('long', 'long');
+      $this->set('length', $results[0]);
+      $result = $results[0];
+      $this->request->session()->write('User1.record', $result);
+      $User =  $this->request->session()->read('User1.record');
       $this->set('color', 'pink');
+      $this->set('user', $User);
     }
 
     public function rest()
     {
       $data = $this->request->data;
       $userName = $data["username"];
+      $password = $data["password"];
+      $results = $this->UserDao->getUser($userName, $password);
+      if (count($results) > 0) {
+        $this->request->session()->write('User.record', $results[0]);
+        return $this->redirect([
+        'controller' => 'Content',
+        'action' => 'index'
+        ]);
+      }
       return $this->redirect([
-      'controller' => 'Login',
-      'action' => 'login',
-      '?' => [
-          'username' => $userName
-      ],
-]);
+        'controller' => 'Login',
+        'action' => 'login'
+      ]);
     }
 }

@@ -27,7 +27,7 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
-
+    public $components = array('Acl');
     /**
      * Initialization hook method.
      *
