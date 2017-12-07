@@ -50,6 +50,7 @@ use Cake\Utility\Security;
  * You can remove this block if you do not want to use environment
  * variables for configuration when deploying.
  */
+
 if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
     $dotenv->parse()
@@ -149,7 +150,7 @@ Email::setConfigTransport(Configure::consume('EmailTransport'));
 Email::setConfig(Configure::consume('Email'));
 Log::setConfig(Configure::consume('Log'));
 Security::setSalt(Configure::consume('Security.salt'));
-
+Plugin::load('Acl', ['bootstrap' => true]);
 /*
  * The default crypto extension in 3.0 is OpenSSL.
  * If you are migrating from 2.x uncomment this code to

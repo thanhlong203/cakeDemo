@@ -58,6 +58,9 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->get('/login', ['controller' => 'Login', 'action' => 'login']);
 
+    $routes->get('/view', ['controller' => 'Login', 'action' => 'view']);
+    $routes->get('/index', ['controller' => 'Content', 'action' => 'index']);
+
     $routes->post('/login/rest', ['controller' => 'Login', 'action' => 'rest']);
 
     /**

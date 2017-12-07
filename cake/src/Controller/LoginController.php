@@ -7,6 +7,7 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\Datasource\ConnectionManager;
 use Cake\Controller\Component\UserDao;
+use Cake\Event\Event;
 
 class LoginController extends AppController
 {
@@ -15,9 +16,43 @@ class LoginController extends AppController
     {
         parent::initialize();
         $this->loadComponent('UserDao');
+        // $this->loadComponent('Auth', [
+        // 'loginAction' => [
+        //     'controller' => 'Login',
+        //     'action' => 'login',
+        // ],
+        // 'viewAction' => [
+        //     'controller' => 'Login',
+        //     'action' => 'view',
+        // ],
+        // 'authorize' => 'controller',
+        // 'authError' => 'Did you really think you are allowed to see that?',
+        // ]);
+    }
+
+    public function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        // $this->Auth->allow('view');
+        // $this->Auth->deny('login');
     }
 
     public function login()
+    {
+      // if (!$this->Auth->loginAction()) {
+      //     $this->redirect([
+      //   'controller' => 'Login',
+      //   'action' => 'view']);
+      // }
+      $results = $this->UserDao->getUser('long', 'long');
+      $this->set('length', $results[0]);
+      $result = $results[0];
+      $this->request->session()->write('User1.record', $result);
+      $User =  $this->request->session()->read('User1.record');
+      $this->set('color', 'pink');
+      $this->set('user', $User);
+    }
+
+    public function view()
     {
       $results = $this->UserDao->getUser('long', 'long');
       $this->set('length', $results[0]);

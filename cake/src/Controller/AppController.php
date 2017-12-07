@@ -27,7 +27,7 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
-    public $components = array('Acl');
+
     /**
      * Initialization hook method.
      *
@@ -67,6 +67,14 @@ class AppController extends Controller
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
+        }
+    }
+
+    public function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        // $this->Auth->allow('login');
+        if ( $this->request->session()->read('User.record') == null && $this->request->getRequestTarget() != '/login' ) {
+            $this->redirect('/login');
         }
     }
 }
