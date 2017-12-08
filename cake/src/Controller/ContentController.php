@@ -7,6 +7,7 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\Datasource\ConnectionManager;
 use Cake\Controller\Component\UserDao;
+use Cake\Event\Event;
 
 class ContentController extends AppController
 {
@@ -17,7 +18,13 @@ class ContentController extends AppController
         $this->loadComponent('UserDao');
     }
 
-    public function index()
+    public function beforeFilter(Event $event) {
+        parent::beforeFilter($event);
+        $this->Auth->allow('index1');
+        // $this->Auth->deny('view');
+    }
+
+    public function index1()
     {
       $User =  $this->request->session()->read('User.record');
        $this->set('user', $User);

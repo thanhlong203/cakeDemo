@@ -43,7 +43,15 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-
+        $this->loadComponent('Auth', [
+                    'loginAction'=> $this->referer(),
+                    'viewAction'=>['controller'=>'Login', 'action'=>'view'],
+                    'contentAction'=>['controller'=>'Content', 'action'=>'index1'],
+                    'userAction'=>['controller'=>'User', 'action'=>'index'],
+                    'authorize'=>['Controller'],
+                    'authError' => 'Đi ra chỗ khác chơi',
+                    'unauthorizedRedirect' => ['controller'=>'User', 'action'=>'index'],
+            ]); 
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
@@ -73,8 +81,12 @@ class AppController extends Controller
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
         // $this->Auth->allow('login');
-        if ( $this->request->session()->read('User.record') == null && $this->request->getRequestTarget() != '/login' ) {
-            $this->redirect('/login');
+        if ( $this->request->session()->read('User.record.name') == null) {
+            if ($this->request->getRequestTarget() != '/login' && $this->request->is('get')) $this->redirect('/login');
+        } else {
+            if ($this->request->session()->read('User.record.type') == 1 || $this->request->session()->read('User.record.type') == 2) $this->Auth->allow(['edit','index','view']);
+            if ($this->request->session()->read('User.record.type') == 1) $this->Auth->allow('delete');
+            if ($this->request->session()->read('User.record.type') == 3) $this->Auth->deny('index');
         }
     }
 }

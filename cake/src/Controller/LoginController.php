@@ -32,7 +32,8 @@ class LoginController extends AppController
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        // $this->Auth->allow('view');
+        $this->Auth->allow('login');
+        $this->Auth->allow('rest');
         // $this->Auth->deny('login');
     }
 
@@ -43,18 +44,13 @@ class LoginController extends AppController
       //   'controller' => 'Login',
       //   'action' => 'view']);
       // }
-      $results = $this->UserDao->getUser('long', 'long');
-      $this->set('length', $results[0]);
-      $result = $results[0];
-      $this->request->session()->write('User1.record', $result);
-      $User =  $this->request->session()->read('User1.record');
+      // $this->UserDao->insertUser();
       $this->set('color', 'pink');
-      $this->set('user', $User);
     }
 
     public function view()
     {
-      $results = $this->UserDao->getUser('long', 'long');
+      $results = $this->UserDao->getUser('Yume', 'sft');
       $this->set('length', $results[0]);
       $result = $results[0];
       $this->request->session()->write('User1.record', $result);
@@ -73,12 +69,9 @@ class LoginController extends AppController
         $this->request->session()->write('User.record', $results[0]);
         return $this->redirect([
         'controller' => 'Content',
-        'action' => 'index'
+        'action' => 'index1'
         ]);
       }
-      return $this->redirect([
-        'controller' => 'Login',
-        'action' => 'login'
-      ]);
+      return $this->redirect(['controller' => 'Login', 'action' => 'login']);
     }
 }

@@ -19,7 +19,6 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 use Cake\Network\Exception\NotFoundException;
 
-// $this->layout = false;
 
 ?>
 
@@ -29,16 +28,24 @@ use Cake\Network\Exception\NotFoundException;
 <title>Page Title</title>
 </head>
 <body>
-<form action="/login/rest" method="post">
-  First name:<br>
-  <input type="text" name="username">
-  <br>
-  Last name:<br>
-  <input type="text" name="password">
-  <br><br>
-  <input type="submit" value="Submit">
-</form> 
+<?= $this->Html->link('Add', ['controller' => 'User', 'action' => 'edit']) ?>
+<table>
+<tr>
+<td>Id</td>
+<td>Name</td>
+<td>Type</td>
+<td></td>
+</tr>
+<?php foreach ($users as $item): ?>
+<tr>
+    <td><?= $item["id"] ?></td>
+    <td><?= $item["name"] ?></td>
+    <td><?= $item["type"] ?></td>
+    <td><?= $this->Html->link('Edit', ['controller' => 'User', 'action' => 'edit', '?'=> ['id'=>$item["id"]]]) ?></td>
+    <td><?= $this->Html->link('Delete', ['controller' => 'User', 'action' => 'edit', '?'=> ['id'=>$item["id"],'action'=>'delete']]) ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+
 </body>
 </html>
-
-

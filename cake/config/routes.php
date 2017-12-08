@@ -59,8 +59,11 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->get('/login', ['controller' => 'Login', 'action' => 'login']);
 
     $routes->get('/view', ['controller' => 'Login', 'action' => 'view']);
-    $routes->get('/index', ['controller' => 'Content', 'action' => 'index']);
+    $routes->get('/index', ['controller' => 'Content', 'action' => 'index1']);
+    $routes->get('/users', ['controller' => 'User', 'action' => 'index']);
+    $routes->connect('/edit', ['controller' => 'User', 'action' => 'edit']);
 
+    $routes->post('/delete', ['controller' => 'User', 'action' => 'delete']);
     $routes->post('/login/rest', ['controller' => 'Login', 'action' => 'rest']);
 
     /**
